@@ -1,0 +1,49 @@
+name: Arpit Deploy to ECR  # Workflow name
+
+on:
+  push:
+    branches: [main]  # Change to "development" if needed
+
+jobs:
+  build:
+    name: Build and Push Images
+    runs-on: ubuntu-latest  # Runs on the latest Ubuntu runner.
+
+    steps:
+    # Step 1: Checkout the repository code
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    # Step 2: Authenticate with Amazon ECR using hardcoded AWS credentials
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      env:
+        AWS_ACCESS_KEY_ID: ASIAR7I7HI6X2DLSIMHG
+        AWS_SECRET_ACCESS_KEY: 6fnEcACtXTmC/jKR99IxtG1Dfm9zt1RWttXRActw
+        AWS_SESSION_TOKEN: IQoJb3JpZ2luX2VjEO3//////////wEaCXVzLXdlc3QtMiJGMEQCIBWGPbyQgeOI/lQ2ne3dzELClHN+IwMxW0oxbYHHXYRyAiBmN3WL9GMfUjJ/nXxHYKAesvBp4G7ZaJRLqBkKXQkc2Sq4Agj2//////////8BEAIaDDEzNTg5MzgyOTU1MSIMS/P4KRt+vnK/VsreKowCD8Rn60krtnhJPp2Ar7UbwtMAZuSpkbilv0+IHP7BmtVywHnOzPGLl02Bnu+AgQnD+unY5SeHWYk8O8jCyENk+Dos76ti+NHZWwggB7gAk8sJgAk2JMWT5rFuQSZXOqu8QT3Jbl47bnMZhGgIUkUZ+Ty8JuhpO9jrx0lwFofAOUs06mdbNAeOfkYDGkBRBVifACP+JB02V5bMqkowzgLAuLo7o4Et8MArU1cmbceUddobXlJxGo+GKe3t12GLfTBq6ep3UxsiisItavIrK8q3Q5CE9JP9wmyctpPxSYPTjfS6ol3/1yjQvIMkfdzxWbLUkDW/gZ6UkGKY5WAbZsYolNzvupE8ZaFohCuDeTD4sf+8BjqeAcpp/ars9StjZFAEP3BL7oPdYxO0+PfXaf79T4aPRIVxe+TVZ3pGMnkiVFMjY+hIplVDI79gHOhkNCBY2cbW6oybOQxMXQ/7eZZ8wWpIr3sKY+5qV8MHLPZHa1/gtaRqsh7M1CZWJN2oZcVtSvWdGoZNmEMRKp0uA/hU8fE/kAERRJeVNtCuIfZKGPyHeERXWfxcdUdMqU7Y7CAa8d36
+        AWS_REGION: us-east-1  
+
+    # Step 3: Set environment variables for repository names
+    - name: Set environment variables
+      run: |
+        echo "ECR_REGISTRY=${{ steps.login-ecr.outputs.registry }}" >> $GITHUB_ENV
+        echo "MYSQL_REPOSITORY=mysql-repo" >> $GITHUB_ENV  # MySQL image repository
+        echo "APP_REPOSITORY=webapp-repo" >> $GITHUB_ENV  # Application image repository
+        echo "MYSQL_IMAGE_TAG=mysql-latest" >> $GITHUB_ENV  
+        echo "APP_IMAGE_TAG=app-latest" >> $GITHUB_ENV  
+    # Step 4: Build and tag the MySQL Docker image
+    - name: Build and tag MySQL Docker Image
+      run: |
+        docker build -t my_db -f Dockerfile_mysql . 
+        docker tag my_db:latest $ECR_REGISTRY/$MYSQL_REPOSITORY:$MYSQL_IMAGE_TAG  
+    # Step 5: Build and tag the application Docker image
+    - name: Build and tag App Docker Image
+      run: |
+        docker build -t my_app -f Dockerfile . 
+        docker tag my_app:latest $ECR_REGISTRY/$APP_REPOSITORY:$APP_IMAGE_TAG  
+    # Step 6: Push both Docker images (MySQL and application) to Amazon ECR
+    - name: Push Docker Images to ECR
+      run: |
+        docker push $ECR_REGISTRY/$MYSQL_REPOSITORY:$MYSQL_IMAGE_TAG  
+        docker push $ECR_REGISTRY/$APP_REPOSITORY:$APP_IMAGE_TAG  
