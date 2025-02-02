@@ -1,6 +1,6 @@
 resource "aws_vpc" "main_vpc" {
-  cidr_block = "10.0.0.0/16"
-  enable_dns_support = true
+  cidr_block           = "10.0.0.0/16"
+  enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = {
@@ -20,9 +20,9 @@ resource "aws_subnet" "public_subnet" {
 }
 
 resource "aws_subnet" "private_subnet" {
-  vpc_id                  = aws_vpc.main_vpc.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "us-east-1a"
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"
 
   tags = {
     Name = "PrivateSubnet"
@@ -40,7 +40,7 @@ resource "aws_internet_gateway" "igw" {
 
 # Create NAT Gateway for Private Subnet
 resource "aws_eip" "nat_ip" {
-  domain = "vpc"  # Use "domain" instead of "vpc = true"
+  domain = "vpc" # Use "domain" instead of "vpc = true"
 }
 
 resource "aws_nat_gateway" "natgw" {
@@ -77,7 +77,7 @@ resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.main_vpc.id
 
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.natgw.id
   }
 
@@ -112,7 +112,7 @@ resource "aws_security_group" "web_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   ingress {
     from_port   = 80
     to_port     = 80
@@ -127,20 +127,20 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  vpc_id = aws_vpc.main_vpc.id  # Ensure the security group is in the correct VPC
+  vpc_id = aws_vpc.main_vpc.id # Ensure the security group is in the correct VPC
 }
 
 resource "aws_instance" "web_instance" {
   ami           = var.ami_id
   instance_type = var.instance_type
-  key_name      = "gupta"
+  # key_name      = "gupta"
 
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  
+
   subnet_id = aws_subnet.public_subnet.id
-  
+
   iam_instance_profile = "LabInstanceProfile"
-  
+
   user_data = <<-EOF
               #!/bin/bash
               yum update -y
@@ -152,5 +152,39 @@ resource "aws_instance" "web_instance" {
 
   tags = {
     Name = "Arpit-EC2-Instance"
+  }
+}
+
+resource "aws_ecr_repository" "mysql_repo" {
+  name                 = "mysql-repo"  # Updated repository name
+  image_tag_mutability = "MUTABLE"     # Allow tags to be mutable
+
+  encryption_configuration {
+    encryption_type = "AES256"
+  }
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Name = "mysql-repo"
+  }
+}
+
+resource "aws_ecr_repository" "webapp_repo" {
+  name                 = "webapp-repo"  # ECR repository name
+  image_tag_mutability = "MUTABLE"      # Allow mutable tags
+
+  encryption_configuration {
+    encryption_type = "AES256"
+  }
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
+
+  tags = {
+    Name = "webapp-repo"
   }
 }
