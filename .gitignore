@@ -23,3 +23,15 @@ override.tf.json
 
 # Ignore Terraform zip files
 terraform.zip
+
+
+# Terraform provider files
+terraform/.terraform/
+
+# Terraform state files
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/terraform.zip
+
+# Large files
+terraform/.terraform/providers/
