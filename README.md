@@ -254,7 +254,7 @@ Solution : solution is to use associate_with_private_ip , used eip block in the 
 resource "aws_eip" "nat_ip" { domain = "vpc" # Use "domain" instead of "vpc = true" }
 ```
 ```
-
+```
 ### Summary
 ```
 This project deploys a two-tier web application using Docker, AWS ECR, and Terraform.
