@@ -19,10 +19,10 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
       env:
-        AWS_ACCESS_KEY_ID: ASIAR7I7HI6X2DLSIMHG
-        AWS_SECRET_ACCESS_KEY: 6fnEcACtXTmC/jKR99IxtG1Dfm9zt1RWttXRActw
-        AWS_SESSION_TOKEN: IQoJb3JpZ2luX2VjEO3//////////wEaCXVzLXdlc3QtMiJGMEQCIBWGPbyQgeOI/lQ2ne3dzELClHN+IwMxW0oxbYHHXYRyAiBmN3WL9GMfUjJ/nXxHYKAesvBp4G7ZaJRLqBkKXQkc2Sq4Agj2//////////8BEAIaDDEzNTg5MzgyOTU1MSIMS/P4KRt+vnK/VsreKowCD8Rn60krtnhJPp2Ar7UbwtMAZuSpkbilv0+IHP7BmtVywHnOzPGLl02Bnu+AgQnD+unY5SeHWYk8O8jCyENk+Dos76ti+NHZWwggB7gAk8sJgAk2JMWT5rFuQSZXOqu8QT3Jbl47bnMZhGgIUkUZ+Ty8JuhpO9jrx0lwFofAOUs06mdbNAeOfkYDGkBRBVifACP+JB02V5bMqkowzgLAuLo7o4Et8MArU1cmbceUddobXlJxGo+GKe3t12GLfTBq6ep3UxsiisItavIrK8q3Q5CE9JP9wmyctpPxSYPTjfS6ol3/1yjQvIMkfdzxWbLUkDW/gZ6UkGKY5WAbZsYolNzvupE8ZaFohCuDeTD4sf+8BjqeAcpp/ars9StjZFAEP3BL7oPdYxO0+PfXaf79T4aPRIVxe+TVZ3pGMnkiVFMjY+hIplVDI79gHOhkNCBY2cbW6oybOQxMXQ/7eZZ8wWpIr3sKY+5qV8MHLPZHa1/gtaRqsh7M1CZWJN2oZcVtSvWdGoZNmEMRKp0uA/hU8fE/kAERRJeVNtCuIfZKGPyHeERXWfxcdUdMqU7Y7CAa8d36
-
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }} 
+        
     # Step 3: Set environment variables for repository names
     - name: Set environment variables
       run: |
