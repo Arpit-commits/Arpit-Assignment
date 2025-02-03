@@ -1,4 +1,19 @@
-### Introduction 
+![Picture1](https://github.com/user-attachments/assets/f3981de3-d3e6-446b-a2cc-0d046e0d8fed)
+
+# 🏗️ Two-Tier Web Application Deployment with Docker & AWS ECR
+
+## Introduction
+
+This project demonstrates the deployment of a **two-tier web application** using **Docker, AWS Elastic Container Registry (ECR), and Terraform**. The application consists of:
+
+- **Backend:** MySQL database container
+- **Frontend:** Python-based web application container
+
+The goal is to **containerize the application**, store images in **AWS ECR**, and deploy them on an **EC2 instance** using Terraform. This setup ensures **scalability, automation, and cloud-based deployment**.
+
+By the end of this project, you'll have a **fully functional web application** running on AWS infrastructure. 🚀
+
+### Pointers
 ```
 This assignment is about deploying a two-tier web application using Docker, AWS ECR, and Terraform.
 ```
