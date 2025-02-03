@@ -139,10 +139,13 @@ resource "aws_instance" "web_instance" {
 
   subnet_id = aws_subnet.public_subnet.id
 
+  iam_instance_profile = "LabInstanceProfile"
+
   tags = {
     Name = "Arpit-EC2-Instance"
   }
 }
+
 
 resource "aws_ecr_repository" "mysql_repo" {
   name                 = "mysql-repo"  # Updated repository name
