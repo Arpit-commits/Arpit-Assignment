@@ -139,17 +139,6 @@ resource "aws_instance" "web_instance" {
 
   subnet_id = aws_subnet.public_subnet.id
 
-  iam_instance_profile = "LabInstanceProfile"
-
-  user_data = <<-EOF
-              #!/bin/bash
-              yum update -y
-              yum install -y docker
-              systemctl start docker
-              systemctl enable docker
-              usermod -aG docker ec2-user
-              EOF
-
   tags = {
     Name = "Arpit-EC2-Instance"
   }
