@@ -14,18 +14,15 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      # Step 2: Authenticate with Amazon ECR using OIDC and LabRole
-      - name: Configure AWS Credentials with OIDC
-        uses: aws-actions/configure-aws-credentials@v4
-       env:
-         AWS_ACCESS_KEY_ID: ASIAR7I7HI6XR26CTCCP
-         AWS_SECRET_ACCESS_KEY: s8gP5nJHfwW55megmE42rTtBFTtYd8O7b++KwvY6
-         AWS_SESSION_TOKEN: IQoJb3JpZ2luX2VjEMH//////////wEaCXVzLXdlc3QtMiJHMEUCIGW9IsqpytZLI6vU4za8HQBtqFn4d6+nE2PJno2zSedrAiEAycAl3JYYEu3wdX/iPc4hZQtcd0t1ZBsiUWkQeF97I1IqrwIISRACGgwxMzU4OTM4Mjk1NTEiDL4pfacv5m4GrNErJSqMAmr/hohryyYw9gh4a79KPev3ZufOaBl1EbX39QjwNGulFGIQOy7EmtipqqWc4jYBjhSJDSXcHChfVT/wkknr7Fbj0QPsk8kx26BB7k6pDUdrXdgAgkUfr88FVAB9cfLR3VBtp4ux88Z5ZKEO02OnGCw++VIfl8VGQ7v5sBpPk4T1ye6GQVNt9gVYuI44FiRsAHSKaVDFzhgbkm1k8ZLrw9lEHiyJ3lwPSFOFOI4ob9WGNWmkeUtCZbeh0d1J9NXXf7pxlKduReAUmprB7odetEOW5W4zMVqGpPtFhvdllEuqjjS4Ek3sU8a4bXSL58zLs0NNxPMs+LzHnf1vL5IVwXQ5pNBBVQVuC1Wq4UkwwbH/vwY6nQEp8tMBv0xvOEKoI5qrpM05N1ZE3DmuurHKQh0dqwl0V+oJTGzHsT6gIk3mtT9msKFCVmWAv/0Iy1X4mBsWF2ztAf/LFcI7YCjk/0AxkscPiwzDUNd4Tcradhv34JgCcOlop+NcHFdP/COLOR6tOnUHWJVNkhlJ8lDd2flXPT9oujIaB+i8I3ti5x/izt1DwhALkbQmdoCqPbE4C0+Y
-         AWS_REGION: us-east-1  
-
+      # Step 2: Authenticate with Amazon ECR using credentials
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+        env:
+          AWS_ACCESS_KEY_ID: ASIAR7I7HI6XR26CTCCP
+          AWS_SECRET_ACCESS_KEY: s8gP5nJHfwW55megmE42rTtBFTtYd8O7b++KwvY6
+          AWS_SESSION_TOKEN: IQoJb3JpZ2luX2VjEMH//////////wEaCXVzLXdlc3QtMiJHMEUCIGW9IsqpytZLI6vU4za8HQBtqFn4d6+nE2PJno2zSedrAiEAycAl3JYYEu3wdX/iPc4hZQtcd0t1ZBsiUWkQeF97I1IqrwIISRACGgwxMzU4OTM4Mjk1NTEiDL4pfacv5m4GrNErJSqMAmr/hohryyYw9gh4a79KPev3ZufOaBl1EbX39QjwNGulFGIQOy7EmtipqqWc4jYBjhSJDSXcHChfVT/wkknr7Fbj0QPsk8kx26BB7k6pDUdrXdgAgkUfr88FVAB9cfLR3VBtp4ux88Z5ZKEO02OnGCw++VIfl8VGQ7v5sBpPk4T1ye6GQVNt9gVYuI44FiRsAHSKaVDFzhgbkm1k8ZLrw9lEHiyJ3lwPSFOFOI4ob9WGNWmkeUtCZbeh0d1J9NXXf7pxlKduReAUmprB7odetEOW5W4zMVqGpPtFhvdllEuqjjS4Ek3sU8a4bXSL58zLs0NNxPMs+LzHnf1vL5IVwXQ5pNBBVQVuC1Wq4UkwwbH/vwY6nQEp8tMBv0xvOEKoI5qrpM05N1ZE3DmuurHKQh0dqwl0V+oJTGzHsT6gIk3mtT9msKFCVmWAv/0Iy1X4mBsWF2ztAf/LFcI7YCjk/0AxkscPiwzDUNd4Tcradhv34JgCcOlop+NcHFdP/COLOR6tOnUHWJVNkhlJ8lDd2flXPT9oujIaB+i8I3ti5x/izt1DwhALkbQmdoCqPbE4C0+Y
+          AWS_REGION: ${{ secrets.AWS_REGION }}
 
       # Step 3: Set environment variables for repository names
       - name: Set environment variables
