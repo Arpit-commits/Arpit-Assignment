@@ -252,10 +252,11 @@ resource "aws_eip" "nat_ip" { domain = "vpc" # Use "domain" instead of "vpc = tr
 ```
 ```
 ```
-### Summary
+### Summary 
 ```
 This project deploys a two-tier web application using Docker, AWS ECR, and Terraform.
 The database and application run in separate containers on a custom network.
 Environment variables manage database credentials and app color themes.
 The web application can be scaled by running multiple containers with different colors.
 ```
+#video - https://youtu.be/buZutDA43Go
